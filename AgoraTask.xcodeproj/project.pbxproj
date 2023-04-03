@@ -7,15 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B5B0D7429DB68320092F71F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5B0D7329DB68320092F71F /* Constant.swift */; };
 		7BCA64C329DACE8A00E97AC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */; };
 		7BCA64C529DACE8A00E97AC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */; };
 		7BCA64C729DACE8A00E97AC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C629DACE8A00E97AC1 /* ViewController.swift */; };
 		7BCA64CA29DACE8A00E97AC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA64C829DACE8A00E97AC1 /* Main.storyboard */; };
 		7BCA64CC29DACE8B00E97AC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA64CB29DACE8B00E97AC1 /* Assets.xcassets */; };
 		7BCA64CF29DACE8B00E97AC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA64CD29DACE8B00E97AC1 /* LaunchScreen.storyboard */; };
+		7BCA64D829DACF4C00E97AC1 /* AIAEC in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64D729DACF4C00E97AC1 /* AIAEC */; };
+		7BCA64DA29DACF4C00E97AC1 /* AINS in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64D929DACF4C00E97AC1 /* AINS */; };
+		7BCA64DC29DACF4C00E97AC1 /* AudioBeauty in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64DB29DACF4C00E97AC1 /* AudioBeauty */; };
+		7BCA64DE29DACF4C00E97AC1 /* DRM in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64DD29DACF4C00E97AC1 /* DRM */; };
+		7BCA64E029DACF4C00E97AC1 /* RtcBasic in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64DF29DACF4C00E97AC1 /* RtcBasic */; };
+		7BCA64E229DACF4C00E97AC1 /* SpatialAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 7BCA64E129DACF4C00E97AC1 /* SpatialAudio */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B5B0D7329DB68320092F71F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		7BCA64BF29DACE8A00E97AC1 /* AgoraTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AgoraTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,6 +39,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BCA64E229DACF4C00E97AC1 /* SpatialAudio in Frameworks */,
+				7BCA64DC29DACF4C00E97AC1 /* AudioBeauty in Frameworks */,
+				7BCA64D829DACF4C00E97AC1 /* AIAEC in Frameworks */,
+				7BCA64DE29DACF4C00E97AC1 /* DRM in Frameworks */,
+				7BCA64DA29DACF4C00E97AC1 /* AINS in Frameworks */,
+				7BCA64E029DACF4C00E97AC1 /* RtcBasic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +70,7 @@
 		7BCA64C129DACE8A00E97AC1 /* AgoraTask */ = {
 			isa = PBXGroup;
 			children = (
+				7BCA64E329DAE34700E97AC1 /* Constant */,
 				7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */,
 				7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */,
 				7BCA64C629DACE8A00E97AC1 /* ViewController.swift */,
@@ -65,6 +80,14 @@
 				7BCA64D029DACE8B00E97AC1 /* Info.plist */,
 			);
 			path = AgoraTask;
+			sourceTree = "<group>";
+		};
+		7BCA64E329DAE34700E97AC1 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				7B5B0D7329DB68320092F71F /* Constant.swift */,
+			);
+			path = Constant;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +106,14 @@
 			dependencies = (
 			);
 			name = AgoraTask;
+			packageProductDependencies = (
+				7BCA64D729DACF4C00E97AC1 /* AIAEC */,
+				7BCA64D929DACF4C00E97AC1 /* AINS */,
+				7BCA64DB29DACF4C00E97AC1 /* AudioBeauty */,
+				7BCA64DD29DACF4C00E97AC1 /* DRM */,
+				7BCA64DF29DACF4C00E97AC1 /* RtcBasic */,
+				7BCA64E129DACF4C00E97AC1 /* SpatialAudio */,
+			);
 			productName = AgoraTask;
 			productReference = 7BCA64BF29DACE8A00E97AC1 /* AgoraTask.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +142,9 @@
 				Base,
 			);
 			mainGroup = 7BCA64B629DACE8A00E97AC1;
+			packageReferences = (
+				7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */,
+			);
 			productRefGroup = 7BCA64C029DACE8A00E97AC1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -141,6 +175,7 @@
 				7BCA64C729DACE8A00E97AC1 /* ViewController.swift in Sources */,
 				7BCA64C329DACE8A00E97AC1 /* AppDelegate.swift in Sources */,
 				7BCA64C529DACE8A00E97AC1 /* SceneDelegate.swift in Sources */,
+				7B5B0D7429DB68320092F71F /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +325,7 @@
 				DEVELOPMENT_TEAM = KTK732WRHB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraTask/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Task needs to use your microphone for run the app properly.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -318,6 +354,7 @@
 				DEVELOPMENT_TEAM = KTK732WRHB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraTask/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Task needs to use your microphone for run the app properly.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -358,6 +395,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AgoraIO/AgoraAudio_iOS.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7BCA64D729DACF4C00E97AC1 /* AIAEC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = AIAEC;
+		};
+		7BCA64D929DACF4C00E97AC1 /* AINS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = AINS;
+		};
+		7BCA64DB29DACF4C00E97AC1 /* AudioBeauty */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = AudioBeauty;
+		};
+		7BCA64DD29DACF4C00E97AC1 /* DRM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = DRM;
+		};
+		7BCA64DF29DACF4C00E97AC1 /* RtcBasic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = RtcBasic;
+		};
+		7BCA64E129DACF4C00E97AC1 /* SpatialAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */;
+			productName = SpatialAudio;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7BCA64B729DACE8A00E97AC1 /* Project object */;
 }
