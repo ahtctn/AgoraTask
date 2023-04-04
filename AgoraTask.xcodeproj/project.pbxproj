@@ -326,6 +326,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraTask/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Task needs to use your microphone for run the app properly.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Agora Task uses speech recognition";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -355,6 +356,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraTask/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Task needs to use your microphone for run the app properly.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Agora Task uses speech recognition";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
