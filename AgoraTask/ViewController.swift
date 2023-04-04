@@ -10,13 +10,14 @@ import AVFoundation
 import AgoraRtcKit
 import Speech
 import AVKit
+import InstantSearchVoiceOverlay
 
 class ViewController: UIViewController {
     
     //MARK: OUTLETS
     var joinButton: UIButton!
     
-    var talkButton: UIButton!
+//    var talkButton: UIButton!
     var listenButton: UIButton!
     
     var speechToTextLabel: UILabel!
@@ -48,12 +49,11 @@ class ViewController: UIViewController {
     
     //MARK: SPEECH TO TEXT PROPERTIES
     
+    let voiceOverlayController = VoiceOverlayController()
+    var textToSend: String = ""
+    
     //MARK: TEXT TO SPEECH PROPERTIES
     let synthesizer = AVSpeechSynthesizer()
-    
-    
-    //MARK: SPEECH TO TEXT PROPERTIES
-    
     
     
     
@@ -193,18 +193,18 @@ class ViewController: UIViewController {
         speechToTextLabel.layer.cornerRadius = 20
         ///Buraya speech'den gelen içerik konulacak.
         //speechToTextLabel.text = "Hello guys, It's Steve here, I am exciting for this task. I hope i will work with Articula family."
-        speechToTextLabel.text = "Merhaba arkadaşlar, ben Ahmet. Bu görev ve Articula'da çalışıp dolar kazanma ihtimalimden dolayı oldukça heyecanlı hissediyorum."
+        speechToTextLabel.text = ""
         
         
-        talkButton = UIButton(type: .system)
-        talkButton.setTitle("Talk 🔊", for: .normal)
-        talkButton.frame = CGRect(x: 141, y: 625, width: 150, height: 100)
-        talkButton.setTitleColor(.white, for: .normal)
-        talkButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        talkButton.layer.cornerRadius = 10
-        talkButton.backgroundColor = .systemIndigo
-        
-        talkButton.addTarget(self, action: #selector(talkButtonTapped), for: .touchUpInside)
+//        talkButton = UIButton(type: .system)
+//        talkButton.setTitle("Talk 🔊", for: .normal)
+//        talkButton.frame = CGRect(x: 141, y: 625, width: 150, height: 100)
+//        talkButton.setTitleColor(.white, for: .normal)
+//        talkButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+//        talkButton.layer.cornerRadius = 10
+//        talkButton.backgroundColor = .systemIndigo
+//
+//        talkButton.addTarget(self, action: #selector(talkButtonTapped), for: .touchUpInside)
         
         listenButton = UIButton(type: .system)
         listenButton.setTitle("Listen 🎵", for: .normal)
@@ -221,7 +221,7 @@ class ViewController: UIViewController {
         self.view.addSubview(speechToTextLabel)
 
         self.view.addSubview(joinButton)
-        self.view.addSubview(talkButton)
+        //self.view.addSubview(talkButton)
         self.view.addSubview(listenButton)
     }
     
@@ -245,17 +245,46 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc private func talkButtonTapped(_ sender: UIButton) {
-        let utterance = AVSpeechUtterance(string: speechToTextLabel.text ?? "no text to talk")
-        utterance.rate = 0.52
-        utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
-        synthesizer.speak(utterance)
-        print("talk button tapped")
-         
-    }
+//    @objc private func talkButtonTapped(_ sender: UIButton) {
+//        let utterance = AVSpeechUtterance(string: speechToTextLabel.text ?? "no text to talk")
+//        utterance.rate = 0.52
+//        utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
+//        synthesizer.speak(utterance)
+//        print("talk button tapped")
+//
+//    }
     
     @objc private func listenButtonTapped(_ sender: UIButton) {
-
+        voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
+            //self.speechToTextLabel.text = ""
+            if isFinal  {
+                
+                self.speechToTextLabel.text = text
+                self.textToSend = text
+                print(self.textToSend)
+            } else {
+                print("Work in progress \(text)")
+                self.speechToTextLabel.text = text
+                print(text)
+                
+                let utterance = AVSpeechUtterance(string: self.speechToTextLabel.text ?? "no text to talk")
+                utterance.rate = 0.52
+                utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
+                self.synthesizer.speak(utterance)
+                
+                
+            }
+        }, errorHandler: { error in
+            print("errora girdi")
+            print("\(String(describing: error?.localizedDescription))")
+        })
+        
+        let utterance = AVSpeechUtterance(string: self.speechToTextLabel.text ?? "no text to talk")
+        utterance.rate = 0.52
+        utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
+        self.synthesizer.speak(utterance)
+        print("talk button tapped")
+        self.speechToTextLabel.text = ""
     }
 }
 
