@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B5B0D7429DB68320092F71F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5B0D7329DB68320092F71F /* Constant.swift */; };
 		7B5B0D7A29DC4D820092F71F /* InstantSearchVoiceOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5B0D7929DC4D820092F71F /* InstantSearchVoiceOverlay */; };
+		7BBB94C929DCD761003294C1 /* AgoraRtmKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7BBB94C829DCD761003294C1 /* AgoraRtmKit */; };
 		7BCA64C329DACE8A00E97AC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */; };
 		7BCA64C529DACE8A00E97AC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */; };
 		7BCA64C729DACE8A00E97AC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C629DACE8A00E97AC1 /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBB94C929DCD761003294C1 /* AgoraRtmKit in Frameworks */,
 				7BCA64E229DACF4C00E97AC1 /* SpatialAudio in Frameworks */,
 				7BCA64DC29DACF4C00E97AC1 /* AudioBeauty in Frameworks */,
 				7BCA64D829DACF4C00E97AC1 /* AIAEC in Frameworks */,
@@ -116,6 +118,7 @@
 				7BCA64DF29DACF4C00E97AC1 /* RtcBasic */,
 				7BCA64E129DACF4C00E97AC1 /* SpatialAudio */,
 				7B5B0D7929DC4D820092F71F /* InstantSearchVoiceOverlay */,
+				7BBB94C829DCD761003294C1 /* AgoraRtmKit */,
 			);
 			productName = AgoraTask;
 			productReference = 7BCA64BF29DACE8A00E97AC1 /* AgoraTask.app */;
@@ -148,6 +151,7 @@
 			packageReferences = (
 				7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */,
 				7B5B0D7829DC4D820092F71F /* XCRemoteSwiftPackageReference "voice-overlay-ios" */,
+				7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */,
 			);
 			productRefGroup = 7BCA64C029DACE8A00E97AC1 /* Products */;
 			projectDirPath = "";
@@ -411,6 +415,14 @@
 				kind = branch;
 			};
 		};
+		7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AgoraIO/AgoraRtm_iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AgoraIO/AgoraAudio_iOS.git";
@@ -426,6 +438,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B5B0D7829DC4D820092F71F /* XCRemoteSwiftPackageReference "voice-overlay-ios" */;
 			productName = InstantSearchVoiceOverlay;
+		};
+		7BBB94C829DCD761003294C1 /* AgoraRtmKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */;
+			productName = AgoraRtmKit;
 		};
 		7BCA64D729DACF4C00E97AC1 /* AIAEC */ = {
 			isa = XCSwiftPackageProductDependency;

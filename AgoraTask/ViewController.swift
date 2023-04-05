@@ -11,14 +11,13 @@ import AgoraRtcKit
 import Speech
 import AVKit
 import InstantSearchVoiceOverlay
+import AgoraRtmKit
+
 
 class ViewController: UIViewController {
     
     //MARK: OUTLETS
     var joinButton: UIButton!
-    
-//    var talkButton: UIButton!
-    var listenButton: UIButton!
     
     var speechToTextLabel: UILabel!
     
@@ -55,7 +54,8 @@ class ViewController: UIViewController {
     //MARK: TEXT TO SPEECH PROPERTIES
     let synthesizer = AVSpeechSynthesizer()
     
-    
+    var localUid: UInt = 0
+    var remoteUid: UInt = 0
     
     //MARK: LIFECYCLE
     
@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         initializeAgoraEngine()
-        //self.setupSpeech()
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -98,7 +98,9 @@ class ViewController: UIViewController {
             print("channel: \(channel)")
             print("UID: \(uid)")
             print("elapsed: \(elapsed)")
-            
+            self.sendTextMessage(self.speechToTextLabel.text ?? "hello girls")
+            print("\(self.sendTextMessage(self.speechToTextLabel.text ?? "hello girls")) girdi")
+        
         }
         
         // Check if joining the channel was successful and set joined Bool accordingly
@@ -155,7 +157,6 @@ class ViewController: UIViewController {
             self.present(alert, animated: true)
             alert.dismiss(animated: true, completion: nil)
         })
-        
     }
     
     //MARK: INITIALIZE AGORA ENGINE
@@ -167,7 +168,17 @@ class ViewController: UIViewController {
         
         //Use AgoraRtcEngineDelegate for the following delegate parameter.
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: configuration, delegate: self)
-        
+        agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
+        agoraEngine.setEnableSpeakerphone(true)
+        agoraEngine.setAudioProfile(.speechStandard)
+        agoraEngine.enableLocalAudio(true)
+        agoraEngine.startPreview()
+        agoraEngine.adjustRecordingSignalVolume(12)
+        agoraEngine.setChannelProfile(.communication)
+    }
+    
+    private func sendTextMessage(_ message: String) {
+        agoraEngine.sendStreamMessage(0, data: message.data(using: .utf8)!)
     }
     
     //MARK: UI CONFIGURATIONS
@@ -181,8 +192,6 @@ class ViewController: UIViewController {
         joinButton.layer.cornerRadius = 10
         joinButton.backgroundColor = .systemIndigo
         
-        joinButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
-        
         speechToTextLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         speechToTextLabel.textAlignment = .center
         speechToTextLabel.center = CGPoint(x: 220, y: 300)
@@ -191,43 +200,13 @@ class ViewController: UIViewController {
         speechToTextLabel.backgroundColor = .systemIndigo
         speechToTextLabel.numberOfLines = 20
         speechToTextLabel.layer.cornerRadius = 20
-        ///Buraya speech'den gelen içerik konulacak.
-        //speechToTextLabel.text = "Hello guys, It's Steve here, I am exciting for this task. I hope i will work with Articula family."
-        speechToTextLabel.text = ""
-        
-        
-//        talkButton = UIButton(type: .system)
-//        talkButton.setTitle("Talk 🔊", for: .normal)
-//        talkButton.frame = CGRect(x: 141, y: 625, width: 150, height: 100)
-//        talkButton.setTitleColor(.white, for: .normal)
-//        talkButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-//        talkButton.layer.cornerRadius = 10
-//        talkButton.backgroundColor = .systemIndigo
-//
-//        talkButton.addTarget(self, action: #selector(talkButtonTapped), for: .touchUpInside)
-        
-        listenButton = UIButton(type: .system)
-        listenButton.setTitle("Listen 🎵", for: .normal)
-        listenButton.frame = CGRect(x: 141, y: 500, width: 150, height: 100)
-        listenButton.setTitleColor(.white, for: .normal)
-        listenButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        listenButton.layer.cornerRadius = 10
-        listenButton.backgroundColor = .systemIndigo
-        
-        listenButton.addTarget(self, action: #selector(listenButtonTapped), for: .touchUpInside)
-        
-        
-        
-        self.view.addSubview(speechToTextLabel)
+        speechToTextLabel.text = "hello guys"
 
+        self.view.addSubview(speechToTextLabel)
         self.view.addSubview(joinButton)
-        //self.view.addSubview(talkButton)
-        self.view.addSubview(listenButton)
+        joinButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
     }
     
-    //MARK: SPEECH TO TEXT FUNCTIONS
-    
-   
     //MARK: ACTION
     
     @objc private func joinButtonTapped(_ sender: UIButton) {
@@ -236,6 +215,24 @@ class ViewController: UIViewController {
         if !joined { //joined == true
             sender.isEnabled = false
             Task {
+                //MARK: Bu kısım sesle alakalı
+                voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
+                    //self.speechToTextLabel.text = ""
+                    if isFinal  {
+                        self.speechToTextLabel.text = text
+                        self.textToSend = text
+                        print(self.textToSend)
+                    } else {
+                        print("Work in progress \(text)")
+                        self.speechToTextLabel.text = text
+                        print(text)
+                    }
+                }, errorHandler: { error in
+                    print("errora girdi")
+                    print("\(String(describing: error?.localizedDescription))")
+                })
+                self.speechToTextLabel.text = ""
+                //: Bu kısım sesle alakalı
                 
                 await joinChannel()
                 sender.isEnabled = true
@@ -244,63 +241,53 @@ class ViewController: UIViewController {
             leaveChannel()
         }
     }
-    
-//    @objc private func talkButtonTapped(_ sender: UIButton) {
-//        let utterance = AVSpeechUtterance(string: speechToTextLabel.text ?? "no text to talk")
-//        utterance.rate = 0.52
-//        utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
-//        synthesizer.speak(utterance)
-//        print("talk button tapped")
-//
-//    }
-    
-    @objc private func listenButtonTapped(_ sender: UIButton) {
-        voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
-            //self.speechToTextLabel.text = ""
-            if isFinal  {
-                
-                self.speechToTextLabel.text = text
-                self.textToSend = text
-                print(self.textToSend)
-            } else {
-                print("Work in progress \(text)")
-                self.speechToTextLabel.text = text
-                print(text)
-                
-                let utterance = AVSpeechUtterance(string: self.speechToTextLabel.text ?? "no text to talk")
-                utterance.rate = 0.52
-                utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
-                self.synthesizer.speak(utterance)
-                
-                
-            }
-        }, errorHandler: { error in
-            print("errora girdi")
-            print("\(String(describing: error?.localizedDescription))")
-        })
-        
-        let utterance = AVSpeechUtterance(string: self.speechToTextLabel.text ?? "no text to talk")
-        utterance.rate = 0.52
-        utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
-        self.synthesizer.speak(utterance)
-        print("talk button tapped")
-        self.speechToTextLabel.text = ""
-    }
 }
 
 extension ViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
-        print("extension of didJoinedOfUID")
+        //join success
+        //uid = 154534728
+        self.agoraEngine.adjustAudioMixingVolume(12)
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+        self.agoraEngine.adjustAudioMixingVolume(12)
+    }
+    
+    ///MESAJ ALINDIĞINDA YAPILACAKLAR
+    func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
+        if uid == localUid {
+            return
+        }
+        
+        if let message = String(data: data, encoding: .utf8) {
+            DispatchQueue.main.async {
+                self.speechToTextLabel.text = message
+                let utterance = AVSpeechUtterance(string: message)
+                utterance.rate = 0.52
+                utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
+                self.synthesizer.speak(utterance)
+            }
+        }
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {
+        print(errorCode.rawValue.codingKey)
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didLeaveChannelWith stats: AgoraChannelStats) {
+        print("didLeaveChannelWithStats")
+        agoraEngine.stopPreview()
     }
 }
 
 extension ViewController: SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
          if available {
-             self.listenButton.isEnabled = true
+             self.joinButton.isEnabled = true
          } else {
-             self.listenButton.isEnabled = false
+             self.joinButton.isEnabled = false
          }
      }
-    
 }
+
