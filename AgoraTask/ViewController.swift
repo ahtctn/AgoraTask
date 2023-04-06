@@ -15,6 +15,12 @@ import AgoraRtmKit
 
 
 class ViewController: UIViewController {
+    //sil
+    var message: AgoraRtmMessage!
+    var options: AgoraRtmSendMessageOptions!
+    
+    @IBOutlet var messageLabel: UILabel!
+    
     
     //MARK: OUTLETS
     var joinButton: UIButton!
@@ -46,6 +52,8 @@ class ViewController: UIViewController {
     // Update with the channel name you used to generate the token in Agora Console.
     var channelName: String = Constant.AgoraIDs.channelName
     
+    var agoraRtmKit = AgoraRtmKit()
+    
     //MARK: SPEECH TO TEXT PROPERTIES
     
     let voiceOverlayController = VoiceOverlayController()
@@ -63,6 +71,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         initializeAgoraEngine()
+        
+        
 
     }
     
@@ -99,8 +109,7 @@ class ViewController: UIViewController {
             print("UID: \(uid)")
             print("elapsed: \(elapsed)")
             self.sendTextMessage(self.speechToTextLabel.text ?? "hello girls")
-            print("\(self.sendTextMessage(self.speechToTextLabel.text ?? "hello girls")) girdi")
-        
+
         }
         
         // Check if joining the channel was successful and set joined Bool accordingly
@@ -165,6 +174,7 @@ class ViewController: UIViewController {
         let configuration = AgoraRtcEngineConfig()
         //Pass in your APPID here
         configuration.appId = appID
+        print("kanala katılım başarılı oldu.")
         
         //Use AgoraRtcEngineDelegate for the following delegate parameter.
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: configuration, delegate: self)
@@ -175,12 +185,14 @@ class ViewController: UIViewController {
         agoraEngine.startPreview()
         agoraEngine.adjustRecordingSignalVolume(12)
         agoraEngine.setChannelProfile(.communication)
+        agoraEngine.enableWebSdkInteroperability(true)
+        
     }
     
     private func sendTextMessage(_ message: String) {
         agoraEngine.sendStreamMessage(0, data: message.data(using: .utf8)!)
     }
-    
+
     //MARK: UI CONFIGURATIONS
     
     private func setUI() {
@@ -215,6 +227,10 @@ class ViewController: UIViewController {
         if !joined { //joined == true
             sender.isEnabled = false
             Task {
+        
+                guard let message = speechToTextLabel.text else { return }
+                //sendMessage(to: Constant.AgoraIDs.appID, with: message)
+                
                 //MARK: Bu kısım sesle alakalı
                 voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
                     //self.speechToTextLabel.text = ""
@@ -241,6 +257,12 @@ class ViewController: UIViewController {
             leaveChannel()
         }
     }
+    
+    @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
+        print("sendmessagebuttontapped")
+    }
+    
+    
 }
 
 extension ViewController: AgoraRtcEngineDelegate {
@@ -267,6 +289,7 @@ extension ViewController: AgoraRtcEngineDelegate {
                 utterance.rate = 0.52
                 utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
                 self.synthesizer.speak(utterance)
+                print("\(message)")
             }
         }
     }
@@ -280,6 +303,15 @@ extension ViewController: AgoraRtcEngineDelegate {
         agoraEngine.stopPreview()
     }
 }
+
+extension ViewController: AgoraRtmDelegate {
+    func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
+        let messageText = message.text
+        print("girdi")
+
+    }
+}
+
 
 extension ViewController: SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
