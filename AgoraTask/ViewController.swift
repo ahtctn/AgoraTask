@@ -259,7 +259,7 @@ class ViewController: UIViewController, AgoraRtmDelegate {
     private func sendTextMessage(_ text: String) {
         agoraRtmKit = AgoraRtmKit(appId: Constant.AgoraIDs.appID, delegate: self)!
         agoraRtmKit.login(byToken: Constant.AgoraIDs.token, user: "user1") { error in
-            if error == nil {
+            if error == .ok {
                 print("RTM login success")
                 self.agoraRtmKit.send(self.agoraRtmMessage, toPeer: "user1", sendMessageOptions: self.agoraRtmSendMessageOptions) { error in
                     if error == nil {
@@ -281,7 +281,10 @@ class ViewController: UIViewController, AgoraRtmDelegate {
     @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
         print("sendmessagebuttontapped")
         sendTextMessage("Merhaba Arkadaşlar")
-        
+//        messageLabel.text = "sdşsldkfşflskfsdşlkdsf"
+//        if let message = messageLabel.text  {
+//
+//        }
     }
     
 }
@@ -321,9 +324,11 @@ extension ViewController: AgoraRtcEngineDelegate {
         agoraEngine.stopPreview()
     }
     
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didReceive event: AgoraChannelMediaRelayEvent) {
-        
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didReceiveMessage message: String, fromUid uid: Int) {
+            // Mesajları işleyin
     }
+    
+    
 }
 
 extension ViewController: SFSpeechRecognizerDelegate {
