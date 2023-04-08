@@ -19,7 +19,6 @@ class LoginRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     private func alertUserLoginError() {
@@ -40,9 +39,6 @@ class LoginRegisterViewController: UIViewController {
         
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! ViewController
         self.navigationController?.pushViewController(vc, animated: true)
-        
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "LoginNRegisterID")
-//        self.navigationController?.pushViewController(vc!, animated: true)
     }
 
     @IBAction func firebaseRegisterButtonTapped(_ sender: UIButton) {
@@ -57,19 +53,10 @@ class LoginRegisterViewController: UIViewController {
                 print(error?.localizedDescription as Any)
             }
             
-            print("registiration successfull for firebase")
-            print("\(user?.user) logged in")
+            //REGISTIRATION SUCCESSFUL
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! ViewController
             
             self.navigationController?.pushViewController(vc, animated: true)
-            
-            
-            
         }
-        
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "LoginNRegisterID")
-//        self.navigationController?.pushViewController(vc!, animated: true)
     }
-
-
 }

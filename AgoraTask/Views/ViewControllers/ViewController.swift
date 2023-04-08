@@ -21,10 +21,8 @@ class ViewController: UIViewController {
     var joinButton: UIButton!
     
     @IBOutlet var messageLabel: UILabel!
-    @IBOutlet var speechToTextLabel: UILabel!
     @IBOutlet var exitFirebase: UIBarButtonItem!
-    @IBOutlet var sendMessageTextField: UITextField!
-    
+    @IBOutlet var joinAGChannelButton: UIButton!
     
     var messagesArray: [MessageModel] = []
     
@@ -34,7 +32,7 @@ class ViewController: UIViewController {
     var joined: Bool = true {
         didSet {
             DispatchQueue.main.async {
-                self.joinButton.setTitle(self.joined ? "Join" : "Leave", for: .normal)
+                self.joinAGChannelButton.setTitle(self.joined ? "Join" : "Leave", for: .normal)
             }
         }
     }
@@ -73,7 +71,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUI()
+        getMessages()
         initializeAgoraEngine()
         
     }
@@ -192,56 +190,6 @@ class ViewController: UIViewController {
         agoraEngine.enableDualStreamMode(true)
     }
 
-    //MARK: UI CONFIGURATIONS
-    
-    private func setUI() {
-        joinButton = UIButton(type: .system)
-        joinButton.setTitle("Join", for: .normal)
-        joinButton.frame = CGRect(x: 141, y: 750, width: 150, height: 100)
-        joinButton.setTitleColor(.white, for: .normal)
-        joinButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        joinButton.layer.cornerRadius = 10
-        joinButton.backgroundColor = .systemIndigo
-
-        self.view.addSubview(joinButton)
-        joinButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
-        
-        getMessages()
-    }
-    
-    
-    
-    //MARK: ACTION
-    
-    @IBAction func exitFirebaseButtonTapped(_ sender: UIBarButtonItem) {
-        do {
-            try Auth.auth().signOut()
-            self.navigationController?.popViewController(animated: true)
-        } catch {
-            print("exit firebase error \(error.localizedDescription)")
-        }
-    }
-    
-    @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
-        sendMessageTextField.endEditing(true)
-        sendMessageTextField.isEnabled = false
-        
-        let messageDatabase = Database.database().reference().child("Messages")
-        let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "Message body": textToSend]
-        messageDatabase.childByAutoId().setValue(messageDictionary) { error, databaseReference in
-            if error != nil {
-                print("Message saving error: \(String(describing: error?.localizedDescription))")
-            } else {
-                print("Message Saved Successfully")
-                print(messageDictionary.isEmpty)
-                self.messageLabel.text = self.textToSend
-                self.sendMessageTextField.text = ""
-                self.sendMessageTextField.isEnabled = true
-            }
-        }
-        
-    }
-    
     private func getMessages() {
         let messageDatabase = Database.database().reference().child("Messages")
         
@@ -271,7 +219,7 @@ class ViewController: UIViewController {
     
     func textToSpeech(text: String) {
         DispatchQueue.main.async {
-            self.speechToTextLabel.text = text
+            self.messageLabel.text = text
             let utterance = AVSpeechUtterance(string: text)
             utterance.rate = 0.52
             utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
@@ -279,83 +227,77 @@ class ViewController: UIViewController {
         }
     }
     
+    private func sendMessage() {
+        let messageDatabase = Database.database().reference().child("Messages")
+        let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "Message body": textToSend]
+        messageDatabase.childByAutoId().setValue(messageDictionary) { error, databaseReference in
+            if error != nil {
+                print("Message saving error: \(String(describing: error?.localizedDescription))")
+            } else {
+                print("Message Saved Successfully")
+                print(messageDictionary.isEmpty)
+                self.messageLabel.text = self.textToSend
+            }
+        }
+    }
+    
     func speechToText() {
         //MARK: Bu kısım sesle alakalı
         voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
-            //self.speechToTextLabel.text = ""
             if isFinal  {
-                self.speechToTextLabel.text = text
+                self.messageLabel.text = text
                 self.textToSend = text
+                
                 print("Final: \(self.textToSend)")
+                
+                ///BURADA SEND MESSAGE FONKSİYONU İLE SPEECH TO TEXT BİTTİĞİ ANDA MESAJI GÖNDERİYORUZ.
+                self.sendMessage()
+                
             } else {
-                //self.speechToTextLabel.text = text
+                //işlem devam ediyor
+                //MARK: BELKİ BU GÖNDERME İŞLEMİNİ ELSE İÇERİSİNDE YAPARSAK DAHA MANTIKLI OLACAKTIR. ALTTAKİ KOD KELİMELERİ BOŞLUKLARINDAN İTİBAREN BÖLMEYE YARAR.
+                //                let words: [String] = self.textToSend.components(separatedBy: " ")
+                //                for word in words {
+                //                    print("Word \(word.count) \(word)")
+                //                }
             }
         }, errorHandler: { error in
             print("errora girdi")
             print("\(String(describing: error?.localizedDescription))")
         })
-        self.speechToTextLabel.text = ""
-        //: Bu kısım sesle alakalı
-        
+        self.messageLabel.text = ""
+    }
+    //MARK: ACTION
+    
+    @IBAction func exitFirebaseButtonTapped(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            self.navigationController?.popViewController(animated: true)
+        } catch {
+            print("exit firebase error \(error.localizedDescription)")
+        }
     }
     
     
-    @objc private func joinButtonTapped(_ sender: UIButton) {
+    @IBAction func joinChannelButtonTapped(_ sender: UIButton) {
         joined.toggle()
         
         if !joined { //joined == true
             sender.isEnabled = false
             Task {
-                
                 await joinChannel()
-                //speechToText()
                 sender.isEnabled = true
             }
+            speechToText()
         } else {
             leaveChannel()
         }
     }
     
-    @IBAction func checkStatusButton(_ sender: UIButton) {
-        print(textToSend)
-        speechToText()
+    @IBAction func talkButtonPressed(_ sender: UIButton) {
+        //speechToText()
+        print("Talk button pressed but it is nil now")
     }
 }
 
-extension ViewController: AgoraRtcEngineDelegate {
-    
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
-        self.agoraEngine.adjustAudioMixingVolume(12)
-    }
-    
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
-        self.agoraEngine.adjustAudioMixingVolume(12)
-    }
-    
-    ///MESAJ ALINDIĞINDA YAPILACAKLAR
-    func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
-        if uid == localUid {
-            return
-        }
-    }
-    
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {
-        print(errorCode.rawValue.codingKey)
-    }
-    
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didLeaveChannelWith stats: AgoraChannelStats) {
-        print("didLeaveChannelWithStats")
-        agoraEngine.stopPreview()
-    }
-}
-
-extension ViewController: SFSpeechRecognizerDelegate {
-    func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
-         if available {
-             self.joinButton.isEnabled = true
-         } else {
-             self.joinButton.isEnabled = false
-         }
-     }
-}
 

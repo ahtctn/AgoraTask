@@ -7,6 +7,8 @@
 
 import UIKit
 import FirebaseCore
+import FirebaseDatabase
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        let ref = Database.database().reference()
+        ref.removeValue()
+    }
+    
+    
 
     // MARK: UISceneSession Lifecycle
 
