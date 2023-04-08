@@ -128,7 +128,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" image="speaker.3.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="sendMessageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3mL-a2-ZVR"/>
+                                    <action selector="checkStatusButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AkG-Zh-Sdq"/>
                                 </connections>
                             </button>
                         </subviews>

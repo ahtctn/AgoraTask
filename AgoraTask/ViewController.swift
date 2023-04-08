@@ -227,14 +227,14 @@ class ViewController: UIViewController {
         sendMessageTextField.isEnabled = false
         
         let messageDatabase = Database.database().reference().child("Messages")
-        let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "Message body": sendMessageTextField.text!]
+        let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "Message body": textToSend]
         messageDatabase.childByAutoId().setValue(messageDictionary) { error, databaseReference in
             if error != nil {
                 print("Message saving error: \(String(describing: error?.localizedDescription))")
             } else {
                 print("Message Saved Successfully")
                 print(messageDictionary.isEmpty)
-                self.messageLabel.text = self.sendMessageTextField.text
+                self.messageLabel.text = self.textToSend
                 self.sendMessageTextField.text = ""
                 self.sendMessageTextField.isEnabled = true
             }
@@ -279,37 +279,46 @@ class ViewController: UIViewController {
         }
     }
     
+    func speechToText() {
+        //MARK: Bu kısım sesle alakalı
+        voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
+            //self.speechToTextLabel.text = ""
+            if isFinal  {
+                self.speechToTextLabel.text = text
+                self.textToSend = text
+                print("Final: \(self.textToSend)")
+            } else {
+                //self.speechToTextLabel.text = text
+            }
+        }, errorHandler: { error in
+            print("errora girdi")
+            print("\(String(describing: error?.localizedDescription))")
+        })
+        self.speechToTextLabel.text = ""
+        //: Bu kısım sesle alakalı
+        
+    }
+    
+    
     @objc private func joinButtonTapped(_ sender: UIButton) {
         joined.toggle()
         
         if !joined { //joined == true
             sender.isEnabled = false
             Task {
-                //MARK: Bu kısım sesle alakalı
-                voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
-                    //self.speechToTextLabel.text = ""
-                    if isFinal  {
-                        self.speechToTextLabel.text = text
-                        self.textToSend = text
-                        print(self.textToSend)
-                    } else {
-                        print("Work in progress \(text)")
-                        self.speechToTextLabel.text = text
-                        print(text)
-                    }
-                }, errorHandler: { error in
-                    print("errora girdi")
-                    print("\(String(describing: error?.localizedDescription))")
-                })
-                self.speechToTextLabel.text = ""
-                //: Bu kısım sesle alakalı
                 
                 await joinChannel()
+                //speechToText()
                 sender.isEnabled = true
             }
         } else {
             leaveChannel()
         }
+    }
+    
+    @IBAction func checkStatusButton(_ sender: UIButton) {
+        print(textToSend)
+        speechToText()
     }
 }
 
