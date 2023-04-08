@@ -122,6 +122,15 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BfP-ED-PU5">
+                                <rect key="frame" x="309.33333333333331" y="711.33333333333337" width="50.666666666666686" height="34.333333333333371"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="speaker.3.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="sendMessageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3mL-a2-ZVR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -130,11 +139,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="va4-O1-tEd" secondAttribute="bottom" constant="20" id="BAb-8K-f9Y"/>
                             <constraint firstItem="ZWx-1b-wZz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Dob-oY-O0m"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="B22-Ol-iwu" secondAttribute="bottom" constant="300" id="GsJ-To-hni"/>
+                            <constraint firstItem="BfP-ED-PU5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="309.32999999999998" id="TGY-Yb-DcB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZWx-1b-wZz" secondAttribute="trailing" constant="30" id="U7G-sP-TgC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="B22-Ol-iwu" secondAttribute="trailing" constant="30" id="UGk-rS-F8e"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="BfP-ED-PU5" secondAttribute="trailing" constant="30" id="VE1-Nr-K5u"/>
                             <constraint firstItem="va4-O1-tEd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="WId-A4-aK6"/>
                             <constraint firstItem="B22-Ol-iwu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="XUE-Hs-c4I"/>
                             <constraint firstItem="ZWx-1b-wZz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="gC5-Hn-yvO"/>
+                            <constraint firstItem="va4-O1-tEd" firstAttribute="top" secondItem="BfP-ED-PU5" secondAttribute="bottom" constant="10" id="jmV-GA-hPU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="va4-O1-tEd" secondAttribute="trailing" constant="30" id="pfX-VJ-GYg"/>
                         </constraints>
                     </view>
@@ -195,6 +207,7 @@
     </scenes>
     <resources>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+        <image name="speaker.3.fill" catalog="system" width="128" height="84"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

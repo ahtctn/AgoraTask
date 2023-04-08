@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     
     var messagesArray: [MessageModel] = []
     
+    
     //MARK: AGORA PROPERTIES
     
     var joined: Bool = true {
@@ -74,7 +75,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         initializeAgoraEngine()
-        getMessages()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -204,27 +205,11 @@ class ViewController: UIViewController {
 
         self.view.addSubview(joinButton)
         joinButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
+        
+        getMessages()
     }
     
-    private func getMessages() {
-        let messageDatabase = Database.database().reference().child("Messages")
-        messageDatabase.observe(.childAdded) { snapshot in
-            let value = snapshot.value as! Dictionary<String, String>
-            guard let text = value["messageBody"], let sender = value["sender"] else { return }
-            
-            let message = MessageModel()
-            message.messageBody = text
-            message.sender = sender
-            self.messagesArray.append(message)
-            for array in self.messagesArray {
-                self.messageLabel.text = array.messageBody
-                print(array.messageBody)
-            }
-            print(value.count)
-            print("Message Array Count: \(self.messagesArray.count)")
-            
-        }
-    }
+    
     
     //MARK: ACTION
     
@@ -242,12 +227,13 @@ class ViewController: UIViewController {
         sendMessageTextField.isEnabled = false
         
         let messageDatabase = Database.database().reference().child("Messages")
-        let messageDictionary = ["sender": Auth.auth().currentUser?.email, "messageBody": sendMessageTextField.text!]
+        let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "Message body": sendMessageTextField.text!]
         messageDatabase.childByAutoId().setValue(messageDictionary) { error, databaseReference in
             if error != nil {
                 print("Message saving error: \(String(describing: error?.localizedDescription))")
             } else {
                 print("Message Saved Successfully")
+                print(messageDictionary.isEmpty)
                 self.messageLabel.text = self.sendMessageTextField.text
                 self.sendMessageTextField.text = ""
                 self.sendMessageTextField.isEnabled = true
@@ -256,7 +242,42 @@ class ViewController: UIViewController {
         
     }
     
+    private func getMessages() {
+        let messageDatabase = Database.database().reference().child("Messages")
+        
+        messageDatabase.observe(.childAdded) { snapshot in
+            let value = snapshot.value as! Dictionary<String, String>
+            
+            let text = value["Message body"]!
+            let sender = value["Sender"]!
+            print(text)
+            print(sender)
+            let message = MessageModel()
+            message.messageBody = text
+            message.sender = sender
+            
+            self.messagesArray.append(message)
+            for array in self.messagesArray {
+                self.messageLabel.text = array.messageBody.lowercased()
+                print(array.messageBody)
+            }
+            
+            self.textToSpeech(text: text)
+            print(value.count)
+            print("Message Array Count: \(self.messagesArray.count)")
+            
+        }
+    }
     
+    func textToSpeech(text: String) {
+        DispatchQueue.main.async {
+            self.speechToTextLabel.text = text
+            let utterance = AVSpeechUtterance(string: text)
+            utterance.rate = 0.52
+            utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
+            self.synthesizer.speak(utterance)
+        }
+    }
     
     @objc private func joinButtonTapped(_ sender: UIButton) {
         joined.toggle()
@@ -293,7 +314,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: AgoraRtcEngineDelegate {
-    //komple silinecek % 12 kısmı hariç
+    
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         self.agoraEngine.adjustAudioMixingVolume(12)
     }
@@ -306,16 +327,6 @@ extension ViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
         if uid == localUid {
             return
-        }
-        
-        if let message = String(data: data, encoding: .utf8) {
-            DispatchQueue.main.async {
-                self.speechToTextLabel.text = message
-                let utterance = AVSpeechUtterance(string: message)
-                utterance.rate = 0.52
-                utterance.voice = AVSpeechSynthesisVoice(language: Constant.SpeechIDs.Language.english)
-                self.synthesizer.speak(utterance)
-            }
         }
     }
     

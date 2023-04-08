@@ -10,7 +10,7 @@ import Foundation
 enum Constant {
     enum AgoraIDs {
         static let appID = "431add31cd15406a93580e31775c116b"
-        static let token = "007eJxTYKjhsuhNypRhCJmTwRsYPv2Rqqj5jpWBZ2vKjnIElBzds0qBwcTYMDElxdgwOcXQ1MTALNHS2NTCINXY0NzcNNnQ0Cxps4d+SkMgI8OC+xFMjAwQCOJzMjim5xclhiQWZzMwAADqbR5L"
+        static let token = "007eJxTYPCO3GR3xzMvYk571lLXC4XMLh/2/g8T45lvd1wqyHf3pGgFBhNjw8SUFGPD5BRDUxMDs0RLY1MLg1RjQ3Nz02RDQ7OkGxsNUxoCGRkyehRZGRkgEMTnZHBMzy9KDEkszmZgAAB9iR9t"
         static let channelName = "AgoraTask"
     }
     
