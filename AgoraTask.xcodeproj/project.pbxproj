@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B19D8D129E0C7F600A2DE83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B19D8D029E0C7F600A2DE83 /* GoogleService-Info.plist */; };
+		7B19D8DE29E0D95D00A2DE83 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B19D8DD29E0D95D00A2DE83 /* LoginRegisterViewController.swift */; };
+		7B19D8E129E0E9CB00A2DE83 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B19D8E029E0E9CB00A2DE83 /* MessageModel.swift */; };
+		7B19D8E429E0ED7700A2DE83 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8E329E0ED7700A2DE83 /* FirebaseAnalytics */; };
+		7B19D8E629E0ED7700A2DE83 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8E529E0ED7700A2DE83 /* FirebaseAuth */; };
+		7B19D8E829E0ED7700A2DE83 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8E729E0ED7700A2DE83 /* FirebaseCrashlytics */; };
+		7B19D8EA29E0ED7700A2DE83 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8E929E0ED7700A2DE83 /* FirebaseDatabase */; };
+		7B19D8EC29E0ED7700A2DE83 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8EB29E0ED7700A2DE83 /* FirebaseFirestore */; };
+		7B19D8EE29E0ED7700A2DE83 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8ED29E0ED7700A2DE83 /* FirebaseInAppMessaging-Beta */; };
+		7B19D8F029E0ED7700A2DE83 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8EF29E0ED7700A2DE83 /* FirebaseInAppMessagingSwift-Beta */; };
+		7B19D8F229E0ED7700A2DE83 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7B19D8F129E0ED7700A2DE83 /* FirebaseMessaging */; };
 		7B5B0D7429DB68320092F71F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5B0D7329DB68320092F71F /* Constant.swift */; };
 		7B5B0D7A29DC4D820092F71F /* InstantSearchVoiceOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5B0D7929DC4D820092F71F /* InstantSearchVoiceOverlay */; };
-		7BBB94C929DCD761003294C1 /* AgoraRtmKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7BBB94C829DCD761003294C1 /* AgoraRtmKit */; };
 		7BCA64C329DACE8A00E97AC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */; };
 		7BCA64C529DACE8A00E97AC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */; };
 		7BCA64C729DACE8A00E97AC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA64C629DACE8A00E97AC1 /* ViewController.swift */; };
@@ -25,6 +35,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B19D8D029E0C7F600A2DE83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7B19D8DD29E0D95D00A2DE83 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewController.swift; sourceTree = "<group>"; };
+		7B19D8E029E0E9CB00A2DE83 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		7B5B0D7329DB68320092F71F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		7BCA64BF29DACE8A00E97AC1 /* AgoraTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AgoraTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,12 +54,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BBB94C929DCD761003294C1 /* AgoraRtmKit in Frameworks */,
+				7B19D8EE29E0ED7700A2DE83 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				7BCA64E229DACF4C00E97AC1 /* SpatialAudio in Frameworks */,
+				7B19D8F029E0ED7700A2DE83 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				7BCA64DC29DACF4C00E97AC1 /* AudioBeauty in Frameworks */,
+				7B19D8E429E0ED7700A2DE83 /* FirebaseAnalytics in Frameworks */,
 				7BCA64D829DACF4C00E97AC1 /* AIAEC in Frameworks */,
+				7B19D8E629E0ED7700A2DE83 /* FirebaseAuth in Frameworks */,
+				7B19D8EC29E0ED7700A2DE83 /* FirebaseFirestore in Frameworks */,
 				7BCA64DE29DACF4C00E97AC1 /* DRM in Frameworks */,
 				7BCA64DA29DACF4C00E97AC1 /* AINS in Frameworks */,
+				7B19D8E829E0ED7700A2DE83 /* FirebaseCrashlytics in Frameworks */,
+				7B19D8EA29E0ED7700A2DE83 /* FirebaseDatabase in Frameworks */,
+				7B19D8F229E0ED7700A2DE83 /* FirebaseMessaging in Frameworks */,
 				7B5B0D7A29DC4D820092F71F /* InstantSearchVoiceOverlay in Frameworks */,
 				7BCA64E029DACF4C00E97AC1 /* RtcBasic in Frameworks */,
 			);
@@ -55,6 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B19D8DF29E0E9B000A2DE83 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B19D8E029E0E9CB00A2DE83 /* MessageModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7BCA64B629DACE8A00E97AC1 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +102,7 @@
 		7BCA64C129DACE8A00E97AC1 /* AgoraTask */ = {
 			isa = PBXGroup;
 			children = (
+				7B19D8DF29E0E9B000A2DE83 /* Model */,
 				7BCA64E329DAE34700E97AC1 /* Constant */,
 				7BCA64C229DACE8A00E97AC1 /* AppDelegate.swift */,
 				7BCA64C429DACE8A00E97AC1 /* SceneDelegate.swift */,
@@ -81,7 +110,9 @@
 				7BCA64C829DACE8A00E97AC1 /* Main.storyboard */,
 				7BCA64CB29DACE8B00E97AC1 /* Assets.xcassets */,
 				7BCA64CD29DACE8B00E97AC1 /* LaunchScreen.storyboard */,
+				7B19D8D029E0C7F600A2DE83 /* GoogleService-Info.plist */,
 				7BCA64D029DACE8B00E97AC1 /* Info.plist */,
+				7B19D8DD29E0D95D00A2DE83 /* LoginRegisterViewController.swift */,
 			);
 			path = AgoraTask;
 			sourceTree = "<group>";
@@ -118,7 +149,14 @@
 				7BCA64DF29DACF4C00E97AC1 /* RtcBasic */,
 				7BCA64E129DACF4C00E97AC1 /* SpatialAudio */,
 				7B5B0D7929DC4D820092F71F /* InstantSearchVoiceOverlay */,
-				7BBB94C829DCD761003294C1 /* AgoraRtmKit */,
+				7B19D8E329E0ED7700A2DE83 /* FirebaseAnalytics */,
+				7B19D8E529E0ED7700A2DE83 /* FirebaseAuth */,
+				7B19D8E729E0ED7700A2DE83 /* FirebaseCrashlytics */,
+				7B19D8E929E0ED7700A2DE83 /* FirebaseDatabase */,
+				7B19D8EB29E0ED7700A2DE83 /* FirebaseFirestore */,
+				7B19D8ED29E0ED7700A2DE83 /* FirebaseInAppMessaging-Beta */,
+				7B19D8EF29E0ED7700A2DE83 /* FirebaseInAppMessagingSwift-Beta */,
+				7B19D8F129E0ED7700A2DE83 /* FirebaseMessaging */,
 			);
 			productName = AgoraTask;
 			productReference = 7BCA64BF29DACE8A00E97AC1 /* AgoraTask.app */;
@@ -151,7 +189,7 @@
 			packageReferences = (
 				7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */,
 				7B5B0D7829DC4D820092F71F /* XCRemoteSwiftPackageReference "voice-overlay-ios" */,
-				7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */,
+				7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7BCA64C029DACE8A00E97AC1 /* Products */;
 			projectDirPath = "";
@@ -168,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BCA64CF29DACE8B00E97AC1 /* LaunchScreen.storyboard in Resources */,
+				7B19D8D129E0C7F600A2DE83 /* GoogleService-Info.plist in Resources */,
 				7BCA64CC29DACE8B00E97AC1 /* Assets.xcassets in Resources */,
 				7BCA64CA29DACE8A00E97AC1 /* Main.storyboard in Resources */,
 			);
@@ -180,6 +219,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B19D8DE29E0D95D00A2DE83 /* LoginRegisterViewController.swift in Sources */,
+				7B19D8E129E0E9CB00A2DE83 /* MessageModel.swift in Sources */,
 				7BCA64C729DACE8A00E97AC1 /* ViewController.swift in Sources */,
 				7BCA64C329DACE8A00E97AC1 /* AppDelegate.swift in Sources */,
 				7BCA64C529DACE8A00E97AC1 /* SceneDelegate.swift in Sources */,
@@ -407,20 +448,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		7B5B0D7829DC4D820092F71F /* XCRemoteSwiftPackageReference "voice-overlay-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/algolia/voice-overlay-ios.git";
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AgoraIO/AgoraRtm_iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
 			};
 		};
 		7BCA64D629DACF4C00E97AC1 /* XCRemoteSwiftPackageReference "AgoraAudio_iOS" */ = {
@@ -434,15 +475,50 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7B19D8E329E0ED7700A2DE83 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		7B19D8E529E0ED7700A2DE83 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		7B19D8E729E0ED7700A2DE83 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		7B19D8E929E0ED7700A2DE83 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		7B19D8EB29E0ED7700A2DE83 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		7B19D8ED29E0ED7700A2DE83 /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+		7B19D8EF29E0ED7700A2DE83 /* FirebaseInAppMessagingSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessagingSwift-Beta";
+		};
+		7B19D8F129E0ED7700A2DE83 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B19D8E229E0ED7700A2DE83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		7B5B0D7929DC4D820092F71F /* InstantSearchVoiceOverlay */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7B5B0D7829DC4D820092F71F /* XCRemoteSwiftPackageReference "voice-overlay-ios" */;
 			productName = InstantSearchVoiceOverlay;
-		};
-		7BBB94C829DCD761003294C1 /* AgoraRtmKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7BBB94C729DCD761003294C1 /* XCRemoteSwiftPackageReference "AgoraRtm_iOS" */;
-			productName = AgoraRtmKit;
 		};
 		7BCA64D729DACF4C00E97AC1 /* AIAEC */ = {
 			isa = XCSwiftPackageProductDependency;

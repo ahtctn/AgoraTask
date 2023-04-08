@@ -11,23 +11,25 @@ import AgoraRtcKit
 import Speech
 import AVKit
 import InstantSearchVoiceOverlay
-import AgoraRtmKit
+import FirebaseAuth
+import FirebaseDatabase
 
 
-class ViewController: UIViewController, AgoraRtmDelegate {
-    //sil
-    var agoraRtmMessage: AgoraRtmMessage!
-    var agoraRtmSendMessageOptions: AgoraRtmSendMessageOptions!
-    
-    @IBOutlet var messageLabel: UILabel!
-    
+class ViewController: UIViewController {
     
     //MARK: OUTLETS
     var joinButton: UIButton!
     
-    var speechToTextLabel: UILabel!
+    @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var speechToTextLabel: UILabel!
+    @IBOutlet var exitFirebase: UIBarButtonItem!
+    @IBOutlet var sendMessageTextField: UITextField!
+    
+    
+    var messagesArray: [MessageModel] = []
     
     //MARK: AGORA PROPERTIES
+    
     var joined: Bool = true {
         didSet {
             DispatchQueue.main.async {
@@ -52,7 +54,6 @@ class ViewController: UIViewController, AgoraRtmDelegate {
     // Update with the channel name you used to generate the token in Agora Console.
     var channelName: String = Constant.AgoraIDs.channelName
     
-    var agoraRtmKit = AgoraRtmKit()
     
     //MARK: SPEECH TO TEXT PROPERTIES
     
@@ -73,9 +74,7 @@ class ViewController: UIViewController, AgoraRtmDelegate {
         super.viewDidLoad()
         setUI()
         initializeAgoraEngine()
-        
-        
-
+        getMessages()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -202,23 +201,62 @@ class ViewController: UIViewController, AgoraRtmDelegate {
         joinButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         joinButton.layer.cornerRadius = 10
         joinButton.backgroundColor = .systemIndigo
-        
-        speechToTextLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-        speechToTextLabel.textAlignment = .center
-        speechToTextLabel.center = CGPoint(x: 220, y: 300)
-        speechToTextLabel.textColor = .white
-        speechToTextLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        speechToTextLabel.backgroundColor = .systemIndigo
-        speechToTextLabel.numberOfLines = 20
-        speechToTextLabel.layer.cornerRadius = 20
-        speechToTextLabel.text = "hello guys"
 
-        self.view.addSubview(speechToTextLabel)
         self.view.addSubview(joinButton)
         joinButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
     }
     
+    private func getMessages() {
+        let messageDatabase = Database.database().reference().child("Messages")
+        messageDatabase.observe(.childAdded) { snapshot in
+            let value = snapshot.value as! Dictionary<String, String>
+            guard let text = value["messageBody"], let sender = value["sender"] else { return }
+            
+            let message = MessageModel()
+            message.messageBody = text
+            message.sender = sender
+            self.messagesArray.append(message)
+            for array in self.messagesArray {
+                self.messageLabel.text = array.messageBody
+                print(array.messageBody)
+            }
+            print(value.count)
+            print("Message Array Count: \(self.messagesArray.count)")
+            
+        }
+    }
+    
     //MARK: ACTION
+    
+    @IBAction func exitFirebaseButtonTapped(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            self.navigationController?.popViewController(animated: true)
+        } catch {
+            print("exit firebase error \(error.localizedDescription)")
+        }
+    }
+    
+    @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
+        sendMessageTextField.endEditing(true)
+        sendMessageTextField.isEnabled = false
+        
+        let messageDatabase = Database.database().reference().child("Messages")
+        let messageDictionary = ["sender": Auth.auth().currentUser?.email, "messageBody": sendMessageTextField.text!]
+        messageDatabase.childByAutoId().setValue(messageDictionary) { error, databaseReference in
+            if error != nil {
+                print("Message saving error: \(String(describing: error?.localizedDescription))")
+            } else {
+                print("Message Saved Successfully")
+                self.messageLabel.text = self.sendMessageTextField.text
+                self.sendMessageTextField.text = ""
+                self.sendMessageTextField.isEnabled = true
+            }
+        }
+        
+    }
+    
+    
     
     @objc private func joinButtonTapped(_ sender: UIButton) {
         joined.toggle()
@@ -226,9 +264,6 @@ class ViewController: UIViewController, AgoraRtmDelegate {
         if !joined { //joined == true
             sender.isEnabled = false
             Task {
-        
-                
-                
                 //MARK: Bu kısım sesle alakalı
                 voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
                     //self.speechToTextLabel.text = ""
@@ -255,41 +290,10 @@ class ViewController: UIViewController, AgoraRtmDelegate {
             leaveChannel()
         }
     }
-    
-    private func sendTextMessage(_ text: String) {
-        agoraRtmKit = AgoraRtmKit(appId: Constant.AgoraIDs.appID, delegate: self)!
-        agoraRtmKit.login(byToken: Constant.AgoraIDs.token, user: "user1") { error in
-            if error == .ok {
-                print("RTM login success")
-                self.agoraRtmKit.send(self.agoraRtmMessage, toPeer: "user1", sendMessageOptions: self.agoraRtmSendMessageOptions) { error in
-                    if error == nil {
-                        print( self.agoraRtmMessage.type)
-                        print("message send")
-                    } else {
-                        print("message didnt send")
-                    }
-                }
-
-            } else {
-                print("RTM login unsuccess")
-                print("\(error.self)")
-                print(error)
-            }
-        }
-    }
-    
-    @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
-        print("sendmessagebuttontapped")
-        sendTextMessage("Merhaba Arkadaşlar")
-//        messageLabel.text = "sdşsldkfşflskfsdşlkdsf"
-//        if let message = messageLabel.text  {
-//
-//        }
-    }
-    
 }
 
 extension ViewController: AgoraRtcEngineDelegate {
+    //komple silinecek % 12 kısmı hariç
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         self.agoraEngine.adjustAudioMixingVolume(12)
     }
@@ -323,12 +327,6 @@ extension ViewController: AgoraRtcEngineDelegate {
         print("didLeaveChannelWithStats")
         agoraEngine.stopPreview()
     }
-    
-    func rtcEngine(_ engine: AgoraRtcEngineKit, didReceiveMessage message: String, fromUid uid: Int) {
-            // Mesajları işleyin
-    }
-    
-    
 }
 
 extension ViewController: SFSpeechRecognizerDelegate {
