@@ -8,7 +8,7 @@
 import Foundation
 import Speech
 
-extension ViewController: SFSpeechRecognizerDelegate {
+extension AgoraCommunicationViewController: SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
          if available {
              self.joinButton.isEnabled = true

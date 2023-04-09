@@ -7,8 +7,9 @@
 
 import Foundation
 import AgoraRtcKit
+import InstantSearchVoiceOverlay
 
-extension ViewController: AgoraRtcEngineDelegate {
+extension AgoraCommunicationViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         self.agoraEngine.adjustAudioMixingVolume(12)
@@ -32,5 +33,12 @@ extension ViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didLeaveChannelWith stats: AgoraChannelStats) {
         print("didLeaveChannelWithStats")
         agoraEngine.stopPreview()
+    }
+}
+
+
+extension AgoraCommunicationViewController: VoiceOverlayDelegate {
+    func recording(text: String?, final: Bool?, error: Error?) {
+        print(text)
     }
 }

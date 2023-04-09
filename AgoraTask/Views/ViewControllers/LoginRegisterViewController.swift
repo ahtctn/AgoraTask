@@ -36,9 +36,15 @@ class LoginRegisterViewController: UIViewController {
         }
         
         print("registiration successful to firebase")
-        
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! ViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+          guard let strongSelf = self else { return }
+            if error != nil {
+                print(error?.localizedDescription)
+                return
+            }
+            let vc = self?.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! AgoraCommunicationViewController
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     @IBAction func firebaseRegisterButtonTapped(_ sender: UIButton) {
@@ -54,7 +60,7 @@ class LoginRegisterViewController: UIViewController {
             }
             
             //REGISTIRATION SUCCESSFUL
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! ViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FinalScreen") as! AgoraCommunicationViewController
             
             self.navigationController?.pushViewController(vc, animated: true)
         }

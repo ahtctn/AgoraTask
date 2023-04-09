@@ -19,7 +19,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="NVX-ts-5ON">
                                 <rect key="frame" x="100" y="343" width="190" height="98"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="cc@cc.com" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BfL-NW-V5t">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="user2@user.com" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BfL-NW-V5t">
                                         <rect key="frame" x="0.0" y="0.0" width="190" height="34"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="2781.5384615384614" y="-32.701421800947863"/>
         </scene>
-        <!--View Controller-->
+        <!--Agora Communication View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="FinalScreen" id="BYZ-38-t0r" customClass="ViewController" customModule="AgoraTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FinalScreen" id="BYZ-38-t0r" customClass="AgoraCommunicationViewController" customModule="AgoraTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -146,7 +146,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4526.1538461538457" y="-34.123222748815166"/>
+            <point key="canvasLocation" x="3589" y="-33"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D4p-mR-6UP">

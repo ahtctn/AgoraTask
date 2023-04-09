@@ -15,7 +15,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 
-class ViewController: UIViewController {
+class AgoraCommunicationViewController: UIViewController {
     
     //MARK: OUTLETS
     var joinButton: UIButton!
@@ -40,22 +40,16 @@ class ViewController: UIViewController {
     ///GEREKLİ DEĞERLERİ CONSTANT İÇERİSİNDEN DEĞİŞTİRMEYİ UNUTMA
     // The main entry point for Video SDK
     var agoraEngine: AgoraRtcEngineKit!
-
     // By default, set the current user role to broadcaster to both send and receive streams.
     var userRole: AgoraClientRole = .broadcaster
-    
     // Update with the App ID of your project generated on Agora Console.
     let appID: String = Constant.AgoraIDs.appID
-
     // Update with the temporary token generated in Agora Console.
     var token: String = Constant.AgoraIDs.token
-
     // Update with the channel name you used to generate the token in Agora Console.
     var channelName: String = Constant.AgoraIDs.channelName
     
-    
     //MARK: SPEECH TO TEXT PROPERTIES
-    
     let voiceOverlayController = VoiceOverlayController()
     var textToSend: String = ""
     
@@ -73,7 +67,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         getMessages()
         initializeAgoraEngine()
+        voiceOverlayController.delegate = self
+        voiceOverlayController.settings.showResultScreenTimeout = 1
         
+        if voiceOverlayController.settings.showResultScreen == false {
+            voiceOverlayController.settings.showResultScreen = true
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -100,7 +99,6 @@ class ViewController: UIViewController {
         }
         
         ///FOR AN AUDIO CALL SCENARIO SET THE CHANNEL PROFILE AS COMMUNICATION
-        
         option.channelProfile = .communication
         
         ///JOIN THE CHANNEL WITH THE TEMPORARY TOKEN AND THE CHANNEL NAME
@@ -127,9 +125,7 @@ class ViewController: UIViewController {
         if result == 0 { joined = false }
     }
     
-    
     //MARK: AUTHORIZATON AND PERMISSON STATUS
-    
     private func checkForPermissions() async -> Bool {
         let hasPermissions = await self.avAuthorization(mediaType: .audio)
         return hasPermissions
@@ -155,7 +151,6 @@ class ViewController: UIViewController {
     }
     
     //MARK: AUTHORIZATIONS STATUS IS SHOWING WITH THE ALERT
-    
     private func showStatusMessage(title: String?, message: String?, delay: Int = 2) -> Void {
         let deadlineTime = DispatchTime.now() + .seconds(delay)
         
@@ -167,12 +162,10 @@ class ViewController: UIViewController {
     }
     
     //MARK: INITIALIZE AGORA ENGINE
-    
     private func initializeAgoraEngine() {
-        
         //Pass in your APPID here
         configuration.appId = appID
-        print("kanala katılım başarılı oldu.")
+        //JOINED CHANNEL SUCCESSFULLY
         
         //Use AgoraRtcEngineDelegate for the following delegate parameter.
         agoraEngineConfigurations()
@@ -198,22 +191,18 @@ class ViewController: UIViewController {
             
             let text = value["Message body"]!
             let sender = value["Sender"]!
-            print(text)
-            print(sender)
             let message = MessageModel()
             message.messageBody = text
             message.sender = sender
             
             self.messagesArray.append(message)
             for array in self.messagesArray {
-                self.messageLabel.text = array.messageBody.lowercased()
-                print(array.messageBody)
+                self.messageLabel.text = array.messageBody
             }
             
-            self.textToSpeech(text: text)
-            print(value.count)
-            print("Message Array Count: \(self.messagesArray.count)")
-            
+            if sender != Auth.auth().currentUser?.email {
+                self.textToSpeech(text: text)
+            }
         }
     }
     
@@ -234,15 +223,13 @@ class ViewController: UIViewController {
             if error != nil {
                 print("Message saving error: \(String(describing: error?.localizedDescription))")
             } else {
-                print("Message Saved Successfully")
-                print(messageDictionary.isEmpty)
+                //MESSAGE SAVED SUCCESSFULLY
                 self.messageLabel.text = self.textToSend
             }
         }
     }
     
     func speechToText() {
-        //MARK: Bu kısım sesle alakalı
         voiceOverlayController.start(on: self, textHandler: { text, isFinal, _ in
             if isFinal  {
                 self.messageLabel.text = text
@@ -250,19 +237,13 @@ class ViewController: UIViewController {
                 
                 print("Final: \(self.textToSend)")
                 
-                ///BURADA SEND MESSAGE FONKSİYONU İLE SPEECH TO TEXT BİTTİĞİ ANDA MESAJI GÖNDERİYORUZ.
+                ///HERE WE SEND THE MESSAGE WHEN THE SPEECH TO TEXT IS FINISHED WITH THE SEND MESSAGE FUNCTION
                 self.sendMessage()
                 
             } else {
-                //işlem devam ediyor
-                //MARK: BELKİ BU GÖNDERME İŞLEMİNİ ELSE İÇERİSİNDE YAPARSAK DAHA MANTIKLI OLACAKTIR. ALTTAKİ KOD KELİMELERİ BOŞLUKLARINDAN İTİBAREN BÖLMEYE YARAR.
-                //                let words: [String] = self.textToSend.components(separatedBy: " ")
-                //                for word in words {
-                //                    print("Word \(word.count) \(word)")
-                //                }
+                ///PROCESS CONTINUING
             }
         }, errorHandler: { error in
-            print("errora girdi")
             print("\(String(describing: error?.localizedDescription))")
         })
         self.messageLabel.text = ""
@@ -288,15 +269,13 @@ class ViewController: UIViewController {
                 await joinChannel()
                 sender.isEnabled = true
             }
-            speechToText()
         } else {
             leaveChannel()
         }
     }
     
     @IBAction func talkButtonPressed(_ sender: UIButton) {
-        //speechToText()
-        print("Talk button pressed but it is nil now")
+        speechToText()
     }
 }
 
